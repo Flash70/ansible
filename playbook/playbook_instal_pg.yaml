@@ -28,7 +28,7 @@
   
       - name: Run script add repository
         shell: /home/diadmin/pgpro-repo-add.sh
-        when: file_status.stat.exists == "False"
+        
         
   
       - name: Update cache
@@ -39,5 +39,5 @@
         package:
           name: postgrespro-1c-16
           state: present
-
+    when: file_status.stat.exists == "False"
     
