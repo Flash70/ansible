@@ -10,7 +10,7 @@
       register: username
 
     - name: Download pgpro-repo-add.sh
-      ansible.builtin.get_url:
+      get_url:
         url: https://repo.postgrespro.ru/1c/1c-16/keys/pgpro-repo-add.sh
         dest: /home/"{{ username.stdout }}"
         mode: '0751'
