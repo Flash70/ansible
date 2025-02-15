@@ -13,8 +13,9 @@
       debug:
         var: file_status.stat.exists
 
-
-    - block:
+    - name: Install, configure repository postgrespro
+      when: file_status.stat.exists == "False"
+      block:
       - name: Register an example variable
         become: false
         shell: echo "$USER"
@@ -39,5 +40,5 @@
         package:
           name: postgrespro-1c-16
           state: present
-    when: file_status.stat.exists == "False"
+    
     
