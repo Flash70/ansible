@@ -17,6 +17,8 @@
 
     - name: Run script add repository
       script: /home/diadmin/pgpro-repo-add.sh
+      args:
+        executable: /bin/bash
 
     - name: Update cache
       apt:
