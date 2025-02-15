@@ -8,13 +8,17 @@
       apt:
         update_cache: yes
 
+    - name: Upgarde
+      apt:
+        upgrade: yes
+
     - name: Set a hostname
       hostname:
         name: "{{ hostname }}"
         use: systemd
 
-
-    - name: Set timezone to Asia/Tokyo Europe/Moscow
+#Asia/Tokyo
+    - name: Set timezone to Europe/Moscow
       become: true
       timezone:
-        name: Asia/Tokyo
+        name: Europe/Moscow
