@@ -14,7 +14,7 @@
         use: systemd
 
 
-    - name: Set timezone to Asia/Tokyo
+    - name: Set timezone to Asia/Tokyo Europe/Moscow
       become: true
       timezone:
-        name: Europe/Moscow
+        name: Asia/Tokyo
