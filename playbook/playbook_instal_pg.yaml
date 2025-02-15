@@ -36,4 +36,4 @@
           name: postgrespro-1c-16
           state: present
 
-    when: {{file_status.stat.exists}} == false
+    when: "{{file_status.stat.exists}}" == false
