@@ -7,7 +7,7 @@
 
     - name: Remove file (delete file)
       file:
-        path: /home/diadmin/*
+        path: /home/diadmin/
         state: absent
 
     - name: Check if file exists using stat module
