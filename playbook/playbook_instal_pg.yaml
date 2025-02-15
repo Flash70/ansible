@@ -8,6 +8,7 @@
       stat:
         path: /etc/apt/sources.list.d/postgresql-1c-16.list
       register: file_status
+
     - name: Print file status
       debug:
         var: file_status.stat.exists
@@ -38,4 +39,4 @@
           name: postgrespro-1c-16
           state: present
 
-    when: "{{ file_status.stat.exists }}" == false
+    when: "{{ file_status.stat.exists }}" == False
