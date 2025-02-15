@@ -7,9 +7,9 @@
     - name: Register an example variable
       shell: echo "$USER"
       register: username
-      
+
     - name: Download pgpro-repo-add.sh
-      get_url:
+      ansible.builtin.get_url:
         url: https://repo.postgrespro.ru/1c/1c-16/keys/pgpro-repo-add.sh
         dest: /home/"{{ username }}"
         mode: '751'    
