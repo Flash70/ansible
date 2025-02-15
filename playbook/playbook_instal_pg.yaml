@@ -11,7 +11,7 @@
     - name: Print file status
       debug:
         var: file_status.stat.exists
-    -block:
+    - block:
       - name: Register an example variable
         become: false
         shell: echo "$USER"
