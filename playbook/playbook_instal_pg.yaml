@@ -11,5 +11,5 @@
     - name: Download pgpro-repo-add.sh
       get_url:
         url: https://repo.postgrespro.ru/1c/1c-16/keys/pgpro-repo-add.sh
-        dest: /home/{{ username }}
+        dest: /home/"{{ username }}"
         mode: '751'    
