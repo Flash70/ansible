@@ -8,31 +8,32 @@
       stat:
         path: /etc/apt/sources.list.d/postgresql-1c-16.list
       register: file_status
-
     - name: Print file status
       debug:
         var: file_status.stat.exists
+    -block:
+      - name: Register an example variable
+        become: false
+        shell: echo "$USER"
+        register: username
+  
+      - name: Download pgpro-repo-add.sh
+        get_url:
+          url: https://repo.postgrespro.ru/1c/1c-16/keys/pgpro-repo-add.sh
+          dest: /home/{{ username.stdout }}/
+          mode: '0751'
+  
+      - name: Run script add repository
+        shell: /home/diadmin/pgpro-repo-add.sh
+        
+  
+      - name: Update cache
+        apt:
+          update_cache: yes
+  
+      - name: Install postgrespro-1c-16
+        package:
+          name: postgrespro-1c-16
+          state: present
 
-    - name: Register an example variable
-      become: false
-      shell: echo "$USER"
-      register: username
-
-    - name: Download pgpro-repo-add.sh
-      get_url:
-        url: https://repo.postgrespro.ru/1c/1c-16/keys/pgpro-repo-add.sh
-        dest: /home/{{ username.stdout }}/
-        mode: '0751'
-
-    - name: Run script add repository
-      shell: /home/diadmin/pgpro-repo-add.sh
-      
-
-    - name: Update cache
-      apt:
-        update_cache: yes
-
-    - name: Install postgrespro-1c-16
-      package:
-        name: postgrespro-1c-16
-        state: present
+    when: file_status.stat.exists != true
