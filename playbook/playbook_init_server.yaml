@@ -1,6 +1,6 @@
 ---
 - name: Install packages
-  hosts: all
+  hosts: "{{ hosts }}"
   become: true
 
   tasks:
