@@ -16,7 +16,7 @@
         mode: '0751'
 
     - name: Run script add repository
-      script: /home/"{{ username.stdout }}"/pgpro-repo-add.sh
+      script: /home/diadmin/pgpro-repo-add.sh
 
     - name: Update cache
       apt:
