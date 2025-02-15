@@ -5,6 +5,7 @@
 
   tasks:
     - name: Register an example variable
+      become: false
       shell: echo "$USER"
       register: username
 
