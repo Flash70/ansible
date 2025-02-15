@@ -11,6 +11,8 @@
     - name: Print file status
       debug:
         var: file_status.stat.exists
+
+
     - block:
       - name: Register an example variable
         become: false
@@ -36,4 +38,4 @@
           name: postgrespro-1c-16
           state: present
 
-    when: "{{file_status.stat.exists}}" == false
+    when: "{{ file_status.stat.exists }}" == false
