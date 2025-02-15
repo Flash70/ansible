@@ -3,12 +3,11 @@
   hosts: "{{ target_ip }}"
   become: true
 
-
-- name: Register an example variable
-  shell: echo "$USER"
-  register: username
-
   tasks:
+    - name: Register an example variable
+      shell: echo "$USER"
+      register: username
+      
     - name: Download pgpro-repo-add.sh
       get_url:
         url: https://repo.postgrespro.ru/1c/1c-16/keys/pgpro-repo-add.sh
