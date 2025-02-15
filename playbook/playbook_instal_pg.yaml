@@ -13,4 +13,16 @@
       ansible.builtin.get_url:
         url: https://repo.postgrespro.ru/1c/1c-16/keys/pgpro-repo-add.sh
         dest: /home/"{{ username.stdout }}"
-        mode: '0751'    
+        mode: '0751'
+
+    - name: Run script add repository
+      script: /home/"{{ username.stdout }}"/pgpro-repo-add.sh
+
+    - name: Update cache
+      apt:
+        update_cache: yes
+
+    - name: Install postgrespro-1c-16
+      package:
+        name: postgrespro-1c-16
+        state: present
