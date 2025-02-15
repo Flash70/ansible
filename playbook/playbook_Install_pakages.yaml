@@ -1,0 +1,15 @@
+---
+- name: Install packages
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update cache
+      apt:
+        update_cache: yes
+
+    - name: Install packages
+      package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages }}"

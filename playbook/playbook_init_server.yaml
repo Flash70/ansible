@@ -1,0 +1,20 @@
+---
+- name: Install packages
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update cache
+      apt:
+        update_cache: yes
+
+    - name: Set a hostname
+      hostname:
+        name: "{{ hostname }}"
+        use: systemd
+
+
+    - name: Set timezone to Asia/Tokyo
+      become: true
+      timezone:
+        name: Europe/Moscow
