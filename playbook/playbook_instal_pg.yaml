@@ -28,7 +28,7 @@
   
       - name: Run script add repository
         shell: /home/diadmin/pgpro-repo-add.sh
-        when: "{{ file_status.stat.exists }}" == False
+        when: file_status.stat.exists == "False"
         
   
       - name: Update cache
