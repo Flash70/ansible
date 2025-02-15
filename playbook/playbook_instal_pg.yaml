@@ -14,7 +14,7 @@
         var: file_status.stat.exists
 
     - name: Install, configure repository postgrespro
-      when: file_status.stat.exists == "false"
+      when: file_status.stat.exists == false
       block:
       - name: Register an example variable
         become: false
