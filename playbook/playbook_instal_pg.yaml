@@ -6,7 +6,7 @@
   tasks:
     - name: Check if file exists using stat module
       stat:
-        path: /etc/apt/sources.list.d/postgresql-1c-16.list
+        path: /etc/apt/sources.list.d/postgresql-1c-{{ version }}.list
       register: file_status
 
     - name: Print file status
@@ -23,7 +23,7 @@
   
       - name: Download pgpro-repo-add.sh
         get_url:
-          url: https://repo.postgrespro.ru/1c/1c-16/keys/pgpro-repo-add.sh
+          url: https://repo.postgrespro.ru/1c/1c-{{ version }}/keys/pgpro-repo-add.sh
           dest: /home/{{ username.stdout }}/
           mode: '0751'
   
@@ -34,20 +34,23 @@
       apt:
         update_cache: yes
 
-    - name: Install postgrespro-1c-16
+    - name: Install postgrespro-1c-{{ version }}
       package:
-        name: postgrespro-1c-16
+        name: postgrespro-1c-{{ version }}
         state: present
 
-    - name: Stop service postgrespro-1c-16.service on debian, if running
+    - name: Stop service postgrespro-1c-{{ version }}.service on debian, if running
       systemd_service:
-        name: postgrespro-1c-16.service
+        name: postgrespro-1c-{{ version }}.service
         state: stopped
 
     - name: Remove 
-      shell: rm -rf /var/lib/pgpro/1c-16/data/* && /opt/pgpro/1c-16/bin/pg-setup initdb --locale=ru_RU.UTF-8
+      shell: rm -rf /var/lib/pgpro/1c-{{ version }}/data/* && /opt/pgpro/1c-{{ version }}/bin/pg-setup initdb --locale=ru_RU.UTF-8
 
-    - name: Start service postgrespro-1c-16
+    - name: Start service postgrespro-1c-{{ version }}
       systemd_service:
-        name: postgrespro-1c-16.service
+        name: postgrespro-1c-{{ version }}.service
         state: started
+
+    # - name: Remove 
+    #   shell: sudo -u postgres psql | \password 
