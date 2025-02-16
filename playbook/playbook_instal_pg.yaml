@@ -45,6 +45,9 @@
         state: stopped
 
     - name: Remove 
-      shell: rm -rf /var/lib/pgpro/1c-16/data/*
-    
-    
+      shell: rm -rf /var/lib/pgpro/1c-16/data/* && /opt/pgpro/1c-16/bin/pg-setup initdb --locale=ru_RU.UTF-8
+
+    - name: Start service postgrespro-1c-16
+      systemd_service:
+        name: postgrespro-1c-16.service
+        state: started
