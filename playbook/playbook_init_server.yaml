@@ -1,6 +1,6 @@
 ---
 - name: Install packages
-  hosts: "{{ target_ip }}"
+  hosts: all
   become: true
 
   tasks:
