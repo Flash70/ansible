@@ -19,6 +19,5 @@
 
 #Asia/Tokyo
     - name: Set timezone to Europe/Moscow
-      become: true
-      timezone:
+      ansible.posix.timezone:
         name: Europe/Moscow
