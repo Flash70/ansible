@@ -1,5 +1,5 @@
 sudo snap install microk8s --classic
-sudo usermod -aG microk8s vbitadmin
+sudo usermod -aG microk8s $USER
 sudo chown -fR $USER ~/.kube
 microk8s enable storage dns ingress
 sudo snap alias microk8s.kubectl kubectl
