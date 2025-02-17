@@ -21,10 +21,9 @@
       shell: timedatectl set-timezone Europe/Moscow
 
     - name: Install packages
-      package:
-        name: {{ item }}
+      apt:
+        name: "{{ packages }}"
         state: present
-      loop: {{ packages }}
 
 #Asia/Tokyo
     # - name: Set timezone to Europe/Moscow
