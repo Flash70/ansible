@@ -13,7 +13,7 @@
 
     - name: Print file status
       debug:
-        var: setup_var['SUDO_USER']
+        var: {{ ansible_facts }}
 
     - name: Get the current user
       debug:
