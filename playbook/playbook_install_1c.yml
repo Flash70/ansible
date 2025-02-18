@@ -47,4 +47,4 @@
         dest: /etc/foo.conf
         owner: foo
         group: foo
-        mode: '0644
+        mode: '0644'
