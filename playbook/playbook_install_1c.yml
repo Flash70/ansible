@@ -49,13 +49,17 @@
         recurse: yes  # Рекурсивный поиск
       register: found_files
 
+    - name: Extract only paths
+      set_fact:
+        file_paths: "{{ found_files.files | map(attribute='path') | list }}"
+
     - name: Print found files
       debug:
-        msg: "{{ found_files }}"
+        msg: "{{ file_paths }}"
 
     - name: Copy file
       ansible.builtin.copy:
-        src: "{{ found_files.files | map(attribute='path') | list }}"
+        src: "{{ file_paths }}"
         dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/
         owner: "{{ ansible_facts['env']['SUDO_USER'] }}"
         group: "{{ ansible_facts['env']['SUDO_USER'] }}"
