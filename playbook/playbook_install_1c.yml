@@ -55,11 +55,11 @@
 
     - name: Print found files
       debug:
-        msg: "{{ file_paths }}"
+        msg: "{{ file_paths | join('\n')  }}"
 
     - name: Copy file
       ansible.builtin.copy:
-        content: "{{ file_paths | join('\n') }}"
+        src: "{{ file_paths | join('\n') }}"
         dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/
         # owner: "{{ ansible_facts['env']['SUDO_USER'] }}"
         # group: "{{ ansible_facts['env']['SUDO_USER'] }}"
