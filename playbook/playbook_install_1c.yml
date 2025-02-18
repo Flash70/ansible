@@ -8,6 +8,7 @@
     #   shell: //10.10.2.10/repo /mnt/repo cifs username=awx-test,password=123QweQAZwsxedc123 0 0
 
     - name: Mount ephemeral SMB volume
+      become: false
       ansible.posix.mount:
         src: //10.10.2.10/repo
         path: /mnt/repo
