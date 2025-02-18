@@ -8,21 +8,16 @@
     - name: Setup
       # become: false
       setup:
-      register: setup_var.ansible_env
+      register: setup_var
 
     - name: Print file status
       debug:
-        var: setup_var
+        var: setup_var.setup_var.ansible_env
 
     - name: Check if file exists using stat module
       stat:
         path: /usr/local/bin/oneget
       register: file_status
-
-    - name: Print file status
-      debug:
-        var: file_status.stat.exists
-
     - name: Install, configure repository postgrespro
       when: file_status.stat.exists == false
       block:
