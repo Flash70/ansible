@@ -11,7 +11,7 @@
           ONEC_PASSWORD: "{{ password_1c }}"
 
     - name: shell
-      shell: echo $ONEC_USERNAME
+      shell: "echo $ONEC_USERNAME"
 
     # - name: Export variable to the system
     #   shell: export ONEC_USERNAME="{{ login_1c }}" 
