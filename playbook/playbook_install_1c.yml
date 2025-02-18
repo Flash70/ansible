@@ -8,7 +8,7 @@
       ansible.posix.mount:
         src: //10.10.2.10/repo
         path: /mnt/repo
-        opts: "rw,vers=3,file_mode=0600,dir_mode=0766,username={{ ad_username }},password={{ ad_password }}"
+        opts: "rw,vers=3,file_mode=0766,dir_mode=0766,username={{ ad_username }},password={{ ad_password }}"
         opts_no_log: true
         fstype: cifs
         state: ephemeral
