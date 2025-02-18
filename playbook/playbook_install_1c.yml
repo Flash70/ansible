@@ -8,6 +8,7 @@
     - name: Setup
       # become: false
       setup:
+      filter: USER
       register: setup_var
 
     - name: Print file status
