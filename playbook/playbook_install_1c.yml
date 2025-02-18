@@ -5,13 +5,7 @@
 
   tasks:
     - name: Setup
-      # become: false
       setup:
-    #     filter: ansible_env
-    #   register: setup_var
-    - name: Get the current user
-      debug:
-        msg: "The current user is {{ ansible_facts['env']['SUDO_USER'] }}"
 
     - name: Check if file exists using stat module
       stat:
@@ -44,23 +38,29 @@
 
     - name: Find a file by name
       find:
-        paths: /mnt/repo/platform83/{{ v_release }}  # Укажите путь, где искать
-        patterns: "server64_8_3_*"  # Имя файла (можно использовать маски, например, "*.log")
-        recurse: yes  # Рекурсивный поиск
+        paths: /mnt/repo/platform83/{{ v_release }}
+        patterns: "server64_8_3_*"
+        recurse: yes
       register: found_files
-
     - name: Extract only paths
       set_fact:
         file_paths: "{{ found_files.files | map(attribute='path') | list }}"
-
-    - name: Print found files
-      debug:
-        msg: "{{ found_files  }}"
 
     - name: Copy file
       ansible.builtin.copy:
         content: "{{ file_paths | join('\n') }}"
         dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server64.zip
-        # owner: "{{ ansible_facts['env']['SUDO_USER'] }}"
-        # group: "{{ ansible_facts['env']['SUDO_USER'] }}"
-        # mode: '0777'
+        owner: "{{ ansible_facts['env']['SUDO_USER'] }}"
+        group: "{{ ansible_facts['env']['SUDO_USER'] }}"
+        mode: '0777'
+
+    - name: Unmount a mounted volume
+      ansible.posix.mount:
+        path: /mnt/repo
+        state: unmounted
+
+    - name: Unarchive Server 1C
+      ansible.builtin.unarchive:
+        src: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server64.zip
+        dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server/
+        remote_src: yes
