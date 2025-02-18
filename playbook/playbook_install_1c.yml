@@ -4,22 +4,7 @@
   become: true
 
   tasks:
-    - name: Set environment variable for all tasks
-      shell: "echo $ONEC_USERNAME"
-      environment:
-        ONEC_USERNAME: "{{ login_1c }}" 
-        ONEC_PASSWORD: "{{ password_1c }}"
-
-    - name: shell
-      shell: "echo $ONEC_USERNAME"
-
-    # - name: Export variable to the system
-    #   shell: export ONEC_USERNAME="{{ login_1c }}" 
-
-    - name: Print file status
-      debug:
-        var: login_1c
-
+    
     - name: Mount ephemeral SMB volume
       ansible.posix.mount:
         src: //10.10.2.10/repo
@@ -28,12 +13,6 @@
         opts_no_log: true
         fstype: cifs
         state: ephemeral
-
-    # - name: Download OneGet
-    #   get_url:
-    #     url: https://github.com/v8platform/oneget/releases/download/v0.6.0/oneget_Linux_x86_64.tar.gz
-    #     dest: /home/diadmin
-    #     mode: '0770'
 
     - name: Unarchive a file that needs to be downloaded (added in 2.0)
       ansible.builtin.unarchive:
