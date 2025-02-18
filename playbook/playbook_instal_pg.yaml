@@ -52,5 +52,11 @@
         name: postgrespro-1c-{{ version }}.service
         state: started
 
-    # - name: Remove 
-    #   shell: sudo -u postgres psql | \password 
+    - name: Select passwd postgres 
+      shell: sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '123Qwe';"
+
+
+    - name: Create a new database with name "acme"
+      community.postgresql.postgresql_db:
+        name: acme
+        comment: My test DB
