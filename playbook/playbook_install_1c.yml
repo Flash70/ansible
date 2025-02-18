@@ -9,6 +9,7 @@
         environment:
           ONEC_USERNAME: "{{ login_1c }}" 
           ONEC_PASSWORD: "{{ password_1c }}"
+      shell: echo $ONEC_USERNAME
 
     # - name: Export variable to the system
     #   shell: export ONEC_USERNAME="{{ login_1c }}" 
