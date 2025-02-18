@@ -51,7 +51,7 @@
 
     - name: Extract only paths
       set_fact:
-        file_paths: "{{ found_files.files | map(attribute='path') | list }}"
+        file_paths: "{{ found_files.files | map(attribute='path') }}"
 
     - name: Print found files
       debug:
