@@ -13,7 +13,7 @@
 
     - name: Print file status
       debug:
-        var: setup_var.ansible_env
+        var: setup_var
 
     - name: Check if file exists using stat module
       stat:
