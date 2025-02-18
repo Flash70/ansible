@@ -35,11 +35,11 @@
         fstype: cifs
         state: ephemeral
 
-    - name: Download 1C release {{ v_release }}
-      environment:
-        ONEC_USERNAME: "{{ login_1c }}" 
-        ONEC_PASSWORD: "{{ password_1c }}"
-      shell: oneget get --path /mnt/repo/ platform:linux.full.x64@{{ v_release }}
+    # - name: Download 1C release {{ v_release }}
+    #   environment:
+    #     ONEC_USERNAME: "{{ login_1c }}" 
+    #     ONEC_PASSWORD: "{{ password_1c }}"
+    #   shell: oneget get --path /mnt/repo/ platform:linux.full.x64@{{ v_release }}
 
 
     - name: Find a file by name
