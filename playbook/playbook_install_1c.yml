@@ -6,9 +6,10 @@
   tasks:
 
     - name: Setup
+      become: false
       setup:
       register: setup_var
-      
+
     - name: Print file status
       debug:
         var: setup_var
