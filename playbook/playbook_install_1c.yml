@@ -8,7 +8,7 @@
     - name: Setup
       # become: false
       setup:
-        filter: USER
+        filter: ansible_env
       register: setup_var
 
     - name: Print file status
