@@ -13,7 +13,7 @@
 
     - name: Print file status
       debug:
-        var: {{ ansible_facts }}
+        msg: {{ ansible_facts }}
 
     - name: Get the current user
       debug:
