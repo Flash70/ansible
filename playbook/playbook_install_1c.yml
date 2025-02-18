@@ -4,6 +4,12 @@
   become: true
 
   tasks:
+
+    - name: Export variable to the system
+      shell: |
+        export ONEC_USERNAME={{ login_1c }}
+        export ONEC_PASSWORD={{ password_1c }}
+
     - name: Mount ephemeral SMB volume
       ansible.posix.mount:
         src: //10.10.2.10/repo
