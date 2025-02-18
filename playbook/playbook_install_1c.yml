@@ -4,13 +4,18 @@
   become: true
 
   tasks:
+    - name: Set environment variable for all tasks
+      set_fact:
+        environment:
+          ONEC_USERNAME: "{{ login_1c }}" 
+          ONEC_PASSWORD: "{{ password_1c }}"
 
-    - name: Export variable to the system
-      shell: export ONEC_USERNAME="{{ login_1c }}" 
+    # - name: Export variable to the system
+    #   shell: export ONEC_USERNAME="{{ login_1c }}" 
 
     - name: Print file status
       debug:
-        var: password_1c
+        var: login_1c
 
     - name: Mount ephemeral SMB volume
       ansible.posix.mount:
