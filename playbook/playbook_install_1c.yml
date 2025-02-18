@@ -51,7 +51,7 @@
 
     - name: Extract only paths
       set_fact:
-        file_paths: "{{ found_files.files | map(attribute='path') }}"
+        file_paths: "{{ found_files.files | map(attribute='path') | list }}"
 
     - name: Print found files
       debug:
@@ -59,7 +59,7 @@
 
     - name: Copy file
       ansible.builtin.copy:
-        src: "{{ file_paths }}"
+        src: "{{ file_paths | join('\n') }}"
         dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/
         owner: "{{ ansible_facts['env']['SUDO_USER'] }}"
         group: "{{ ansible_facts['env']['SUDO_USER'] }}"
