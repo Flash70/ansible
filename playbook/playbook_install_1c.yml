@@ -4,7 +4,33 @@
   become: true
 
   tasks:
-    
+
+    - name: Setup
+      setup:
+      register: setup_var
+      
+    - name: Print file status
+      debug:
+        var: setup_var
+
+    - name: Check if file exists using stat module
+      stat:
+        path: /usr/local/bin/oneget
+      register: file_status
+
+    - name: Print file status
+      debug:
+        var: file_status.stat.exists
+
+    - name: Install, configure repository postgrespro
+      when: file_status.stat.exists == false
+      block:
+      - name: Unarchive a file that needs to be downloaded (added in 2.0)
+        ansible.builtin.unarchive:
+          src: https://github.com/v8platform/oneget/releases/download/v0.6.0/oneget_Linux_x86_64.tar.gz
+          dest: /usr/local/bin
+          remote_src: yes
+
     - name: Mount ephemeral SMB volume
       ansible.posix.mount:
         src: //10.10.2.10/repo
@@ -13,12 +39,6 @@
         opts_no_log: true
         fstype: cifs
         state: ephemeral
-
-    - name: Unarchive a file that needs to be downloaded (added in 2.0)
-      ansible.builtin.unarchive:
-        src: https://github.com/v8platform/oneget/releases/download/v0.6.0/oneget_Linux_x86_64.tar.gz
-        dest: /usr/local/bin
-        remote_src: yes
 
     - name: Download 1C release {{ v_release }}
       environment:
