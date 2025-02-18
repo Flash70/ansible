@@ -4,15 +4,13 @@
   become: true
 
   tasks:
-    # - name: One
-    #   shell: //10.10.2.10/repo /mnt/repo cifs username=awx-test,password=123QweQAZwsxedc123 0 0
-
     - name: Mount ephemeral SMB volume
-      become: false
       ansible.posix.mount:
         src: //10.10.2.10/repo
         path: /mnt/repo
-        opts: "rw,vers=3,file_mode=0600,dir_mode=0700,username={{ ad_username }},password={{ ad_password }}"
+        opts: "rw,vers=3,file_mode=0600,dir_mode=0760,username={{ ad_username }},password={{ ad_password }}"
         opts_no_log: true
         fstype: cifs
         state: ephemeral
+
+    -name: Find the arh 
