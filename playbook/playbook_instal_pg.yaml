@@ -53,10 +53,4 @@
         state: started
 
     - name: Select passwd postgres 
-      shell: sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '123Qwee';"
-
-
-    # - name: Create a new database with name "acme"
-    #   community.postgresql.postgresql_db:
-    #     name: acme
-    #     comment: My test DB
+      shell: sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '{{ passwd }}';"
