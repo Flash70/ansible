@@ -6,9 +6,7 @@
   tasks:
 
     - name: Export variable to the system
-      shell: |
-        export ONEC_USERNAME="{{ login_1c }}" |
-        export ONEC_PASSWORD="{{ password_1c }}"
+      shell: export ONEC_USERNAME="{{ login_1c }}" 
 
     - name: Print file status
       debug:
