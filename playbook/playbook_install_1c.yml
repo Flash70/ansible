@@ -59,8 +59,8 @@
 
     - name: Copy file
       ansible.builtin.copy:
-        src: "{{ file_paths | join('\n') }}"
+        content: "{{ file_paths | join('\n') }}"
         dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/
-        owner: "{{ ansible_facts['env']['SUDO_USER'] }}"
-        group: "{{ ansible_facts['env']['SUDO_USER'] }}"
-        mode: '0777'
+        # owner: "{{ ansible_facts['env']['SUDO_USER'] }}"
+        # group: "{{ ansible_facts['env']['SUDO_USER'] }}"
+        # mode: '0777'
