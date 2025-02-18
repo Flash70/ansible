@@ -1,0 +1,48 @@
+---
+- name: Install server-1C
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Setup
+      setup:
+
+    - name: Check if file exists using stat module
+      stat:
+        path: /usr/local/bin/oneget
+      register: file_status
+    - name: Install, configure repository postgrespro
+      when: file_status.stat.exists == false
+      block:
+      - name: Unarchive a file that needs to be downloaded (added in 2.0)
+        ansible.builtin.unarchive:
+          src: https://github.com/v8platform/oneget/releases/download/v0.6.0/oneget_Linux_x86_64.tar.gz
+          dest: /usr/local/bin
+          remote_src: yes
+
+    - name: Download 1C release {{ v_release }}
+      environment:
+        ONEC_USERNAME: "{{ login_1c }}" 
+        ONEC_PASSWORD: "{{ password_1c }}"
+      shell: oneget get --path /home/{{ ansible_facts['env']['SUDO_USER'] }}/ platform:linux.full.x64@{{ v_release }}
+
+    - name: Find a file by name
+      find:
+        paths: /home/{{ ansible_facts['env']['SUDO_USER'] }}/platform83/{{ v_release }}
+        patterns: "server64_8_3_*"
+        recurse: yes
+      register: found_files
+    - name: Extract only paths
+      set_fact:
+        file_paths: "{{ found_files.files | map(attribute='path') | list }}"
+
+    - name: сreate directory
+      file:
+        path=/home/{{ ansible_facts['env']['SUDO_USER'] }}/server/
+        state=directory
+
+    - name: Unarchive Server 1C
+      ansible.builtin.unarchive:
+        src: "{{ file_paths | join('\n') }}"
+        dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server/
+        remote_src: yes
