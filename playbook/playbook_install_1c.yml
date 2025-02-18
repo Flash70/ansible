@@ -11,7 +11,7 @@
     #   register: setup_var
     - name: Get the current user
       debug:
-        msg: "The current user is {{ ansible_facts['SUDO_USER'] }}"
+        msg: "The current user is {{ ansible_facts['env'] }}"
 
     - name: Check if file exists using stat module
       stat:
