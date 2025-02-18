@@ -13,7 +13,11 @@
 
     - name: Print file status
       debug:
-        var: setup_var
+        var: setup_var['SUDO_USER']
+
+    - name: Get the current user
+      debug:
+        msg: "The current user is {{ ansible_facts['user_id'] }}"
 
     - name: Check if file exists using stat module
       stat:
