@@ -51,7 +51,7 @@
 
     - name: Print found files
       debug:
-        msg: "{{ found_files.files[path] }}"
+        msg: "{{ found_files.files['path'] }}"
 
     # - name: Copy file
     #   ansible.builtin.copy:
