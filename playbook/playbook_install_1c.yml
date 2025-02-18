@@ -7,12 +7,12 @@
 
     - name: Export variable to the system
       shell: |
-        export ONEC_USERNAME="{{ login_1c }}"
+        export ONEC_USERNAME="{{ login_1c }}" |
         export ONEC_PASSWORD="{{ password_1c }}"
 
     - name: Print file status
       debug:
-        var: login_1c
+        var: password_1c
 
     - name: Mount ephemeral SMB volume
       ansible.posix.mount:
