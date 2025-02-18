@@ -5,10 +5,10 @@
 
   tasks:
     - name: Set environment variable for all tasks
-      set_fact:
-        environment:
-          ONEC_USERNAME: "{{ login_1c }}" 
-          ONEC_PASSWORD: "{{ password_1c }}"
+      shell: "echo $ONEC_USERNAME"
+      environment:
+        ONEC_USERNAME: "{{ login_1c }}" 
+        ONEC_PASSWORD: "{{ password_1c }}"
 
     - name: shell
       shell: "echo $ONEC_USERNAME"
