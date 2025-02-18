@@ -13,4 +13,17 @@
         fstype: cifs
         state: ephemeral
 
-    # -name: Find the arh 
+    # - name: Download OneGet
+    #   get_url:
+    #     url: https://github.com/v8platform/oneget/releases/download/v0.6.0/oneget_Linux_x86_64.tar.gz
+    #     dest: /home/diadmin
+    #     mode: '0770'
+
+    - name: Unarchive a file that needs to be downloaded (added in 2.0)
+      ansible.builtin.unarchive:
+        src: https://github.com/v8platform/oneget/releases/download/v0.6.0/oneget_Linux_x86_64.tar.gz
+        dest: /usr/local/bin
+        remote_src: yes
+
+    -  name: Download 1C release {{ v_release }}
+       shell: oneget get --path /mnt/repo/ platform:linux.full.x64@{{ v_release }}
