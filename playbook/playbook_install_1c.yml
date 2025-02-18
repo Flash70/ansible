@@ -6,9 +6,9 @@
   tasks:
 
     - name: Setup
-      become: false
+      # become: false
       setup:
-      register: setup_var
+      register: setup_var.ansible_env
 
     - name: Print file status
       debug:
