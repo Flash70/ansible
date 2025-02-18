@@ -55,7 +55,7 @@
 
     - name: Copy file
       ansible.builtin.copy:
-        src: {{ found_files.files | map(attribute='path') | list }}
+        src: "{{ found_files.files | map(attribute='path') | list }}"
         dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/
         owner: "{{ ansible_facts['env']['SUDO_USER'] }}"
         group: "{{ ansible_facts['env']['SUDO_USER'] }}"
