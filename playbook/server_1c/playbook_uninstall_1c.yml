@@ -12,5 +12,12 @@
       debug:
         msg: "{{ search_version.stdout }}"
 
+    - name: Start service 1c
+      ansible.builtin.systemd_service:
+        name: srv1cv8-{{ search_version.stdout }}@default.service
+        state: stopped
+        enabled: no
+        daemon_reload: true
+
     - name: Unistal server 1C 
       shell: "sudo  /opt/1cv8/x86_64/{{ search_version.stdout }}/uninstaller-full --mode unattended"
