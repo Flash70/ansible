@@ -58,4 +58,4 @@
         setup_paths: "{{ found_files_server.files | map(attribute='path') | list }}"
 
     - name: Install server server-1C
-      shell: {{ setup_paths | join('\n') }} --mode unattended --enable-components server,ws
+      shell: "{{ setup_paths | join('\n') }} --mode unattended --enable-components server,ws"
