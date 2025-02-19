@@ -77,7 +77,7 @@
     - name: Create a symlink for service 1c
       file:
         src: /opt/1cv8/x86_64/{{ v_release }}/srv1cv8-{{ v_release }}@.service
-        dest: /etc/systemd/system/srv1cv8-{{ v_release }}@.service
+        dest: /etc/systemd/system/srv1cv8-{{ v_release }}@
         state: link
 
     - name: Enable and start service 1c
