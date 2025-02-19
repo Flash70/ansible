@@ -36,6 +36,10 @@
       set_fact:
         file_paths: "{{ found_files.files | map(attribute='path') | list }}"
 
+    - name: Print only paths
+      debug:
+        msg: "{{ ansible_facts['env']['SUDO_USER'] }}"
+
     - name: сreate directory
       file:
         path=/home/{{ ansible_facts['env']['SUDO_USER'] }}/server/
