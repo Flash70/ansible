@@ -82,6 +82,7 @@
 
     - name: Enable and start service 1c
       systemd:
-        name: srv1cv8-{{ v_release }}@
+        daemon_reload: true
+        name: srv1cv8-{{ v_release }}@.service
         enabled: yes
-        state: started
+        
