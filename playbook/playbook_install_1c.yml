@@ -2,6 +2,8 @@
 - name: Install server-1C
   hosts: all
   become: true
+  vars:
+    path_setup: server
 
   tasks:
     - name: Setup
@@ -38,18 +40,18 @@
 
     - name: сreate directory
       file:
-        path=/home/{{ ansible_facts['env']['SUDO_USER'] }}/server/
+        path=/home/{{ ansible_facts['env']['SUDO_USER'] }}/{{ path_setup }}/
         state=directory
 
     - name: Unarchive Server 1C
       ansible.builtin.unarchive:
         src: "{{ file_paths | join('\n') }}"
-        dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server/
+        dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/{{ path_setup }}/
         remote_src: yes
 
     - name: Find a file server 1c
       find:
-        paths: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server/
+        paths: /home/{{ ansible_facts['env']['SUDO_USER'] }}/{{ path_setup }}
         patterns: "setup-full*"
         recurse: yes
       register: found_files_server
@@ -59,3 +61,15 @@
 
     - name: Install server server-1C
       shell: "{{ setup_paths | join('\n') }} --mode unattended --enable-components server,ws"
+
+    - name: Recursively remove directory
+      ansible.builtin.file:
+        path: /home/{{ ansible_facts['env']['SUDO_USER'] }}/{{ path_setup }}
+        state: absent
+
+    - name: Change file ownership, group and permissions
+      ansible.builtin.file:
+        path: /opt/1cv8
+        owner: usr1cv8
+        group: grp1cv8
+        recurse: yes
