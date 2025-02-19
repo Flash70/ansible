@@ -8,7 +8,6 @@
   tasks:
     - name: Setup
       setup:
-
     - name: Check if file exists using stat module
       stat:
         path: /usr/local/bin/oneget
@@ -16,7 +15,7 @@
     - name: Install, configure repository postgrespro
       when: file_status.stat.exists == false
       block:
-      - name: Unarchive a file that needs to be downloaded (added in 2.0)
+      - name: Download OneGet
         ansible.builtin.unarchive:
           src: https://github.com/v8platform/oneget/releases/download/v0.6.0/oneget_Linux_x86_64.tar.gz
           dest: /usr/local/bin
@@ -28,7 +27,7 @@
         ONEC_PASSWORD: "{{ password_1c }}"
       shell: oneget get --path /home/{{ ansible_facts['env']['SUDO_USER'] }}/ platform:linux.full.x64@{{ v_release }}
 
-    - name: Find a file by name
+    - name: Find a file server {{ v_release }}
       find:
         paths: /home/{{ ansible_facts['env']['SUDO_USER'] }}/platform83/{{ v_release }}/
         patterns: "server64_8_3_*"
@@ -38,18 +37,18 @@
       set_fact:
         file_paths: "{{ found_files.files | map(attribute='path') | list }}"
 
-    - name: сreate directory
+    - name: сreate directory {{ path_setup }}
       file:
         path=/home/{{ ansible_facts['env']['SUDO_USER'] }}/{{ path_setup }}/
         state=directory
 
-    - name: Unarchive Server 1C
+    - name: Unarchive Server 1C {{ file_paths | join('\n') }}
       ansible.builtin.unarchive:
         src: "{{ file_paths | join('\n') }}"
         dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/{{ path_setup }}/
         remote_src: yes
 
-    - name: Find a file server 1c
+    - name: Find a file server 1c {{ v_release }}
       find:
         paths: /home/{{ ansible_facts['env']['SUDO_USER'] }}/{{ path_setup }}
         patterns: "setup-full*"
@@ -59,10 +58,10 @@
       set_fact:
         setup_paths: "{{ found_files_server.files | map(attribute='path') | list }}"
 
-    - name: Install server server-1C
+    - name: Install server 1C {{ v_release }}
       shell: "{{ setup_paths | join('\n') }} --mode unattended --enable-components server,ws"
 
-    - name: Recursively remove directory--mode unattended
+    - name: Recursively remove directory
       ansible.builtin.file:
         path: /home/{{ ansible_facts['env']['SUDO_USER'] }}/{{ path_setup }}
         state: absent
@@ -80,13 +79,13 @@
         dest: /etc/systemd/system/srv1cv8-{{ v_release }}@.service
         state: link
 
-    - name: Enable and start service 1c
+    - name: Enable service 1c
       systemd:
         daemon_reload: true
         name: srv1cv8-{{ v_release }}@.service
         enabled: yes
         
-    - name: Make sure a service unit is running
+    - name: Start service 1c
       ansible.builtin.systemd_service:
         state: started
         name: srv1cv8-{{ v_release }}@default.service

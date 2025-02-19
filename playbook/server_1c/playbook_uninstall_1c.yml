@@ -1,0 +1,13 @@
+---
+- name: Install server-1C
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Search version 1C 
+      shell: sudo  systemctl list-units --type=service --state=running | grep srv1cv8 | cut -d ' ' -f 10 | tr -d '(-)'
+      register: search_version
+
+    - name: version
+      debug:
+        msg: "{{ search_version }}"
