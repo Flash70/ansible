@@ -20,44 +20,21 @@
           dest: /usr/local/bin
           remote_src: yes
 
-    - name: Mount ephemeral SMB volume
-      ansible.posix.mount:
-        src: //10.10.2.10/repo
-        path: /mnt/repo
-        opts: "rw,vers=3,file_mode=0766,dir_mode=0767,username={{ ad_username }},password={{ ad_password }}"
-        opts_no_log: true
-        fstype: cifs
-        state: ephemeral
-
-    # - name: Download 1C release {{ v_release }}
-    #   environment:
-    #     ONEC_USERNAME: "{{ login_1c }}" 
-    #     ONEC_PASSWORD: "{{ password_1c }}"
-    #   shell: oneget get --path /mnt/repo/ platform:linux.full.x64@{{ v_release }}
-
+    - name: Download 1C release {{ v_release }}
+      environment:
+        ONEC_USERNAME: "{{ login_1c }}" 
+        ONEC_PASSWORD: "{{ password_1c }}"
+      shell: oneget get --path /home/{{ ansible_facts['env']['SUDO_USER'] }}/ platform:linux.full.x64@{{ v_release }}
 
     - name: Find a file by name
       find:
-        paths: /mnt/repo/platform83/{{ v_release }}
+        paths: /home/{{ ansible_facts['env']['SUDO_USER'] }}/platform83/{{ v_release }}/
         patterns: "server64_8_3_*"
         recurse: yes
       register: found_files
     - name: Extract only paths
       set_fact:
         file_paths: "{{ found_files.files | map(attribute='path') | list }}"
-
-    - name: Copy file
-      ansible.builtin.copy:
-        content: "{{ file_paths | join('\n') }}"
-        dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server64.zip
-        owner: "{{ ansible_facts['env']['SUDO_USER'] }}"
-        group: "{{ ansible_facts['env']['SUDO_USER'] }}"
-        mode: '0777'
-
-    - name: Unmount a mounted volume
-      ansible.posix.mount:
-        path: /mnt/repo
-        state: unmounted
 
     - name: сreate directory
       file:
@@ -66,6 +43,19 @@
 
     - name: Unarchive Server 1C
       ansible.builtin.unarchive:
-        src: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server64.zip
+        src: "{{ file_paths | join('\n') }}"
         dest: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server/
         remote_src: yes
+
+    - name: Find a file server 1c
+      find:
+        paths: /home/{{ ansible_facts['env']['SUDO_USER'] }}/server/
+        patterns: "setup-full*"
+        recurse: yes
+      register: found_files_server
+    - name: Extract only paths
+      set_fact:
+        setup_paths: "{{ found_files_server.files | map(attribute='path') | list }}"
+
+    - name: Install server server-1C
+      shell: {{ setup_paths | join('\n') }} --mode unattended --enable-components server,ws

@@ -28,7 +28,7 @@
 
     - name: Find a file by name
       find:
-        paths: /home/{{ ansible_facts['env']['SUDO_USER'] }}/platform83/{{ v_release }}
+        paths: /home/{{ ansible_facts['env']['SUDO_USER'] }}/platform83/{{ v_release }}/
         patterns: "server64_8_3_*"
         recurse: yes
       register: found_files
