@@ -1,5 +1,5 @@
 ---
-- name: Install server-1C
+- name: Uninstall server-1C
   hosts: all
   become: true
 
@@ -10,4 +10,7 @@
 
     - name: version
       debug:
-        msg: "{{ search_version }}"
+        msg: "{{ search_version.stdout }}"
+
+    - name: Unistal server 1C 
+      shell: "sudo  /opt/1cv8/x86_64/{{ search_version.stdout }}/uninstaller-full --mode unattended"
