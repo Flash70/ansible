@@ -62,7 +62,7 @@
     - name: Install server server-1C
       shell: "{{ setup_paths | join('\n') }} --mode unattended --enable-components server,ws"
 
-    - name: Recursively remove directory
+    - name: Recursively remove directory--mode unattended
       ansible.builtin.file:
         path: /home/{{ ansible_facts['env']['SUDO_USER'] }}/{{ path_setup }}
         state: absent
@@ -73,3 +73,15 @@
         owner: usr1cv8
         group: grp1cv8
         recurse: yes
+
+    - name: Create a symlink for service 1c
+      file:
+        src: /opt/1cv8/x86_64/{{ v_release }}/srv1cv8-{{ v_release }}@.service
+        dest: /etc/systemd/system/srv1cv8-{{ v_release }}@.service
+        state: link
+
+    - name: Enable and start service 1c
+      systemd:
+        name: srv1cv8-{{ v_release }}@.service
+        enabled: yes
+        state: started
