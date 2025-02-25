@@ -8,7 +8,8 @@
     - name: Setup
       debug:
         msg: The distribution is {{ ansible_distribution }} 
-            version {{ ansible_distribution_version }}.
+            version {{ ansible_distribution_version }}
+            famely {{ ansible_os_family }}.
 
     - name: Update cache
       apt:
