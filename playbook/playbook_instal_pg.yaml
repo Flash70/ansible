@@ -22,7 +22,7 @@
 
     - name: Family OS 
       debug:
-        msg: "{{ file_status }}"
+        msg: "{{ file_status.stat }}"
 
     - name: Install, configure repository postgrespro
       when: file_status.stat.exists == false
