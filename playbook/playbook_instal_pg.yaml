@@ -28,7 +28,7 @@
           mode: '0751'
   
       - name: Run script add repository
-        shell: /home/{{ username.stdout }}/pgpro-repo-add.sh
+        shell: "sudo /home/{{ username.stdout }}/pgpro-repo-add.sh"
         
     - name: Update cache, upgrade and install package is famely RedHat
       when: ansible_os_family == "RedHat"
