@@ -4,13 +4,10 @@
   become: true
 
   tasks:
-    - name: Family OS 
-      debug:
-        msg: "{{ ansible_os_family }}"
     - name: Update cache, upgrade and install package is famely Debian
       when: ansible_os_family == "Debian"
       block: 
-        - name: Check if file exists using stat module
+        - name: Check if file exists using stat module is famely Debian
           stat:
             path: /etc/apt/sources.list.d/postgresql-1c-{{ version }}.list
           register: file_status
@@ -18,10 +15,14 @@
     - name: Update cache, upgrade and install package is famely RedHat
       when: ansible_os_family == "RedHat"
       block:
-        - name: Check if file exists using stat module
+        - name: Check if file exists using stat module is famely RedHat
           stat:
             path: /etc/yum.repos.d/postgresql-1c-{{ version }}.repo
           register: file_status
+
+    - name: Family OS 
+      debug:
+        msg: "{{ file_status }}"
 
     - name: Install, configure repository postgrespro
       when: file_status.stat.exists == false
@@ -30,6 +31,7 @@
         become: false
         shell: echo "$USER"
         register: username
+
       - name: Download pgpro-repo-add.sh
         get_url:
           url: https://repo.postgrespro.ru/1c/1c-{{ version }}/keys/pgpro-repo-add.sh
