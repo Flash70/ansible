@@ -4,6 +4,9 @@
   become: true
 
   tasks:
+    - name: Family OS 
+      debug:
+        msg: {{ ansible_os_family }}
     - name: Update cache, upgrade and install package is famely Debian
       when: ansible_os_family == "Debian"
       block: 
