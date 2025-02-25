@@ -30,9 +30,20 @@
       - name: Run script add repository
         shell: /home/{{ username.stdout }}/pgpro-repo-add.sh
         
-    - name: Update cache
-      apt:
-        update_cache: yes
+    - name: Update cache, upgrade and install package is famely RedHat
+      when: ansible_os_family == "RedHat"
+      block:
+        - name: Upgrade all packages
+          ansible.builtin.dnf:
+            name: "*"
+            state: latest
+
+    - name: Update cache, upgrade and install package is famely Debian
+      when: ansible_os_family == "Debian"
+      block:       
+        - name: Update cache
+          apt:
+            update_cache: yes
 
     - name: Install postgrespro-1c-{{ version }}
       package:
