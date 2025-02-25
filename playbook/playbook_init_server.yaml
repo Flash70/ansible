@@ -4,6 +4,12 @@
   become: true
 
   tasks:
+
+    - name: Setup
+      debug:
+        msg: The distribution is {{ ansible_distribution }} 
+            version {{ ansible_distribution_version }}.
+
     - name: Update cache
       apt:
         update_cache: yes
