@@ -3,54 +3,61 @@
   hosts: all
   become: true
 
-  tasks:  
-    - name: Check if file exists using stat module is famely Debian
-      stat:
-        path: /etc/apt/sources.list.d/postgresql-1c-{{ version }}.list
-      register: file_status
+  tasks:
+    - name: Instal PostgreSQL in famely OS Debian
       when: ansible_os_family == "Debian"
-
-    - name: Check if file exists using stat module is famely RedHat
-      stat:
-        path: /etc/yum.repos.d/postgresql-1c-{{ version }}.repo
-      register: file_status
-      when: ansible_os_family == "RedHat"
-
-    - name: Family OS 
-      debug:
-        msg: "{{ file_status }}"
-
-    - name: Install, configure repository postgrespro
-      when: file_status.stat.exists == false
       block:
-      - name: Register an example variable
-        become: false
-        shell: echo "$USER"
-        register: username
+      - name: Check if file exists using stat module is famely Debian
+        stat:
+          path: /etc/apt/sources.list.d/postgresql-1c-{{ version }}.list
+        register: file_status
+      - name: Install, configure repository postgrespro
+        when: file_status.stat.exists == false
+        block:
+        - name: Register an example variable
+          become: false
+          shell: echo "$USER"
+          register: username
+        - name: Download pgpro-repo-add.sh
+          get_url:
+            url: https://repo.postgrespro.ru/1c/1c-{{ version }}/keys/pgpro-repo-add.sh
+            dest: /home/{{ username.stdout }}/
+            mode: '0751'
+        - name: Run script add repository
+          shell: "sudo /home/{{ username.stdout }}/pgpro-repo-add.sh"
+      - name: Update cache, upgrade and install package is famely Debian
+        when: ansible_os_family == "Debian"
+        block:       
+          - name: Update cache is famely Debian
+            apt:
+              update_cache: yes
 
-      - name: Download pgpro-repo-add.sh
-        get_url:
-          url: https://repo.postgrespro.ru/1c/1c-{{ version }}/keys/pgpro-repo-add.sh
-          dest: /home/{{ username.stdout }}/
-          mode: '0751'
-      - name: Run script add repository
-        shell: "sudo /home/{{ username.stdout }}/pgpro-repo-add.sh"
+    - name: Instal PostgreSQL in famely OS Debian
+      when: ansible_os_family == "RedHat"
+      block:
+      - name: Check if file exists using stat module is famely RedHat
+        stat:
+          path: /etc/yum.repos.d/postgresql-1c-{{ version }}.repo
+        register: file_status
+      - name: Install, configure repository postgrespro
+        when: file_status.stat.exists == false
+        block:
+        - name: Register an example variable
+          become: false
+          shell: echo "$USER"
+          register: username
+        - name: Download pgpro-repo-add.sh
+          get_url:
+            url: https://repo.postgrespro.ru/1c/1c-{{ version }}/keys/pgpro-repo-add.sh
+            dest: /home/{{ username.stdout }}/
+            mode: '0751'
+        - name: Run script add repository
+          shell: "sudo /home/{{ username.stdout }}/pgpro-repo-add.sh"
+      - name: Upgrade all packages is famely RedHat
+        ansible.builtin.dnf:
+          name: "*"
+          state: latest
         
-    - name: Update cache, upgrade and install package is famely RedHat
-      when: ansible_os_family == "RedHat"
-      block:
-        - name: Upgrade all packages is famely RedHat
-          ansible.builtin.dnf:
-            name: "*"
-            state: latest
-
-    - name: Update cache, upgrade and install package is famely Debian
-      when: ansible_os_family == "Debian"
-      block:       
-        - name: Update cache is famely Debian
-          apt:
-            update_cache: yes
-
     - name: Install postgrespro-1c-{{ version }}
       package:
         name: postgrespro-1c-{{ version }}
