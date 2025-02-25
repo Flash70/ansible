@@ -38,7 +38,7 @@
     - name: Update cache, upgrade and install package is famely RedHat
       when: ansible_os_family == "RedHat"
       block:
-        - name: Upgrade all packages
+        - name: Upgrade all packages is famely RedHat
           ansible.builtin.dnf:
             name: "*"
             state: latest
@@ -46,7 +46,7 @@
     - name: Update cache, upgrade and install package is famely Debian
       when: ansible_os_family == "Debian"
       block:       
-        - name: Update cache
+        - name: Update cache is famely Debian
           apt:
             update_cache: yes
 
