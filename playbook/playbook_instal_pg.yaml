@@ -3,22 +3,18 @@
   hosts: all
   become: true
 
-  tasks:
-    - name: Update cache, upgrade and install package is famely Debian
+  tasks:  
+    - name: Check if file exists using stat module is famely Debian
+      stat:
+        path: /etc/apt/sources.list.d/postgresql-1c-{{ version }}.list
+      register: file_status
       when: ansible_os_family == "Debian"
-      block: 
-        - name: Check if file exists using stat module is famely Debian
-          stat:
-            path: /etc/apt/sources.list.d/postgresql-1c-{{ version }}.list
-          register: file_status
 
-    # - name: Update cache, upgrade and install package is famely RedHat
-    #   when: ansible_os_family == "RedHat"
-    #   block:
-    #     - name: Check if file exists using stat module is famely RedHat
-    #       stat:
-    #         path: /etc/yum.repos.d/postgresql-1c-{{ version }}.repo
-    #       register: file_status
+    - name: Check if file exists using stat module is famely RedHat
+      stat:
+        path: /etc/yum.repos.d/postgresql-1c-{{ version }}.repo
+      register: file_status
+      when: ansible_os_family == "RedHat"
 
     - name: Family OS 
       debug:
