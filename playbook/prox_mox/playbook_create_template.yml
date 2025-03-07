@@ -5,7 +5,7 @@
 
   tasks:
     - name: Select {{ vm_id }}
-      shell: qm list | grep {{ vm_id }}
+      shell: qm list | awk '{print $1}' | grep {{ vm_id }}
       register: search_vm_id
 
     - name: version {{ vm_id }}
