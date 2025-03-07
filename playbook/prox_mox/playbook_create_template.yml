@@ -6,6 +6,7 @@
   tasks:
     - name: Select {{ vm_id }}
       shell: qm list | awk '{print $1}' | grep {{ vm_id }}
+      ignore_errors: yes
       register: search_vm_id
 
     - name: version {{ vm_id }}
