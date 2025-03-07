@@ -42,8 +42,8 @@
         name: "{{ hostname }}"
         use: systemd
 
-    # - name: Set timezone using shell
-    #   shell: timedatectl set-timezone Europe/Moscow
+    - name: Set timezone using shell
+      shell: timedatectl set-timezone Europe/Moscow
 
     - name: Ensure localisation files for ru_RU.UTF-8 are available
       community.general.locale_gen:
@@ -52,6 +52,6 @@
 
 
 #Asia/Tokyo
-    - name: Set timezone to Europe/Moscow
-      ansible.posix.timezone:
-        name: Europe/Moscow
+    # - name: Set timezone to Europe/Moscow
+    #   ansible.posix.timezone:
+    #     name: Europe/Moscow
