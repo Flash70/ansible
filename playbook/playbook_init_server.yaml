@@ -46,7 +46,7 @@
     #   shell: timedatectl set-timezone Europe/Moscow
 
     - name: Ensure localisation files for ru_RU.UTF-8 are available
-      locale_gen:
+      community.general.locale_gen:
         name: ru_RU.UTF-8
         state: present
 
