@@ -39,12 +39,12 @@
                qm set 8000 --ostype l26
 
 #fvvdv
-qm create 8000 --memory 2048 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-single --machine q35 --cpu x86-64-v3 --cores 2
-qm set 8000 --scsi0 local-lvm:0,import-from=/var/lib/vz/template/iso/Rocky-9-GenericCloud-Base.latest.x86_64.qcow2,discard=on,ssd=1,iothread=1
-qm set 8000 --ide2 local-lvm:cloudinit
-qm set 8000 --boot order=scsi0
-qm set 8000 --ciuser diadmin --cipassword '123Qwe!@' --sshkeys /root/.ssh/id_rsa_vbitadmin.pub --ipconfig0 ip=dhcp --ciupgrade false
-qm set 8000 --ostype l26
+# qm create 8000 --memory 2048 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-single --machine q35 --cpu x86-64-v3 --cores 2
+# qm set 8000 --scsi0 local-lvm:0,import-from=/var/lib/vz/template/iso/Rocky-9-GenericCloud-Base.latest.x86_64.qcow2,discard=on,ssd=1,iothread=1
+# qm set 8000 --ide2 local-lvm:cloudinit
+# qm set 8000 --boot order=scsi0
+# qm set 8000 --ciuser diadmin --cipassword '123Qwe!@' --sshkeys /root/.ssh/id_rsa_vbitadmin.pub --ipconfig0 ip=dhcp --ciupgrade false
+# qm set 8000 --ostype l26
 
 
 
