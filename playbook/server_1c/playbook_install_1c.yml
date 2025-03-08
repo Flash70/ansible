@@ -4,11 +4,12 @@
   become: true
   vars:
     path_setup: server
+    ansible_become_password: {{ sudo_password }}
 
   tasks:
     - name: Setup
       setup:
-    - name: Check if file exists using stat module
+    - name: Check if file exists OneGet
       stat:
         path: /usr/local/bin/oneget
       register: file_status

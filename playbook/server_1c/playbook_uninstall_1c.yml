@@ -2,6 +2,8 @@
 - name: Uninstall server-1C
   hosts: all
   become: true
+  vars:
+    ansible_become_password: {{ sudo_password }}
 
   tasks:
     - name: Search version 1C 
