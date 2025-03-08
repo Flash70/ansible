@@ -4,7 +4,7 @@
   become: true
   vars:
     path_setup: server
-    ansible_become_password: {{ sudo_password }}
+    #ansible_become_password: {{ sudo_password }}
 
   tasks:
     - name: Setup
