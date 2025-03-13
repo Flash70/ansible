@@ -14,25 +14,32 @@
     - name: Update cache, upgrade and install package is famely Debian
       when: ansible_os_family == "Debian"
       block:
-      - name: Update cache
+      - name: Update cache famely Debian
         apt:
           update_cache: yes
       - name: Upgarde
         apt:
           upgrade: yes
-      - name: Install packages
+      - name: Install packages famely Debian
         ansible.builtin.package:
           name: "{{ packages }}"
           state: present
 
+      - name: Set default locale to ru_RU.UTF-8 famely Debian
+        ansible.builtin.debconf:
+          name: locales
+          question: locales/default_environment_locale
+          value: ru_RU.UTF-8
+          vtype: select
+
     - name: Update cache, upgrade and install package is famely RedHat
       when: ansible_os_family == "RedHat"
       block:
-        - name: Upgrade all packages
+        - name: Upgrade all packages famely RedHat
           ansible.builtin.dnf:
             name: "*"
             state: latest
-        - name: Install packages
+        - name: Install packages famely RedHat
           ansible.builtin.package:
             name: "{{ packages }}"
             state: present
@@ -42,12 +49,7 @@
         name: "{{ hostname }}"
         use: systemd
 
-    - name: Set default locale to ru_RU.UTF-8
-      ansible.builtin.debconf:
-        name: locales
-        question: locales/default_environment_locale
-        value: ru_RU.UTF-8
-        vtype: select
+    
 
     - name: Set timezone using shell
       shell: timedatectl set-timezone Europe/Moscow
