@@ -1,2 +1,9 @@
 .vscode
 .gitignore
+terraform/project/terraform.tfvars
+terraform/project/terraform.tfstate.backup
+terraform/project/terraform.tfstate
+terraform/project/.terraform.lock.hcl
+terraform/project/.terraform
+semaphore/.env
+terraform/modules/create_vm_ware/terraform.tfvars

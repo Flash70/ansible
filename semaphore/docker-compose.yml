@@ -1,0 +1,52 @@
+services:
+  # uncomment this section and comment out the mysql section to use postgres instead of mysql
+  postgres:
+    restart: unless-stopped
+    image: postgres:14
+    hostname: postgres
+    volumes: 
+     - ./semaphore-postgres:/var/lib/postgresql/data
+    environment:
+     POSTGRES_USER: ${DB_USER}
+     POSTGRES_PASSWORD: ${DB_PASSWD}
+     POSTGRES_DB: ${DB_NAME}
+  # if you wish to use postgres, comment the mysql service section below 
+  semaphore:
+    restart: unless-stopped
+    ports:
+      - 80:3000
+      - 389:389
+    image: semaphoreui/semaphore:v2.13.0
+    environment:
+      SEMAPHORE_DB_USER: ${DB_USER}
+      SEMAPHORE_DB_PASS: ${DB_PASSWD}
+      SEMAPHORE_DB_HOST: postgres # for postgres, change to: postgres
+      SEMAPHORE_DB_PORT: 5432 # change to 5432 for postgres
+      SEMAPHORE_DB_DIALECT: postgres # for postgres, change to: postgres
+      SEMAPHORE_DB: ${DB_NAME}
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+      SEMAPHORE_ADMIN_PASSWORD: ${AD_PASSWD}
+      SEMAPHORE_ADMIN_NAME: ${AD_NAME}
+      SEMAPHORE_ADMIN_EMAIL: ${AD_EMAIL}
+      SEMAPHORE_ADMIN: ${AD_NAME}
+      SEMAPHORE_COOKIE_HASH: ${COOKIE_HASH}
+      SEMAPHORE_COOKIE_ENCRYPTION: ${COOKIE_ENCRYPTION}
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${ACCESS_KEY_ENCRYPTION}
+      SEMAPHORE_HOST_KEY_CHECKING: "False"
+      SEMAPHORE_LDAP_ENABLE: "True"
+      SEMAPHORE_LDAP_BIND_DN: ${LDAP_BIND_DN}
+      SEMAPHORE_LDAP_BIND_PASSWORD: ${LDAP_BIND_PASSWORD}
+      SEMAPHORE_LDAP_SERVER: ${LDAP_SERVER}
+      SEMAPHORE_LDAP_SEARCH_DN: ${LDAP_SEARCH_DN}
+      SEMAPHORE_LDAP_SEARCH_FILTER: "(&(objectClass=inetOrgPerson)(uid=%s))"
+      SEMAPHORE_LDAP_NEEDTLS: "false"
+      SEMAPHORE_LDAP_MAPPING_MAIL: "mail"
+      SEMAPHORE_LDAP_MAPPING_UID: "uid"
+      SEMAPHORE_LDAP_MAPPING_CN: "cn"
+      TZ: UTC+03:00
+    volumes:
+     - ./semaphore_data:/var/lib/semaphore
+     - ./semaphore_config:/etc/semaphore
+     - ./ansible:/home/semaphore/playbook
+    depends_on:
+      - postgres # for postgres, change to: postgres
